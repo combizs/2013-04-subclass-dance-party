@@ -13,11 +13,19 @@
       <span class="title">object dance party</span>
       <a href="#" class="addDancerButton" data-dancer-maker-function-name="NonBlinkyDancer">add a non-blinky dancer</a>
       <a href="#" class="addDancerButton" data-dancer-maker-function-name="BlinkyDancer">add a dancer</a>
+      <a href="#" class="lineupDancers" data-dancer-maker-function-name="BlinkyDancer">add a dancer</a>
     </div>
 
     <script>
       $(document).ready(function(){
         window.dancers = [];
+
+        $(".lineupDancers").on("click", function(){
+          for(var i =0; i < window.dancers.length; i++){
+            console.log(window.dancers[i]);
+            window.dancers[i].css('left', '0px');
+          }
+        });
 
         $(".addDancerButton").on("click", function(event){
           /* This function sets up the click handlers for the create-dancer
