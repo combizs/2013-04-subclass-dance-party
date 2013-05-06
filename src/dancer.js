@@ -8,7 +8,6 @@ var makeDancer = function(top, left, timeBetweenSteps){
   this.timeBetweenSteps = timeBetweenSteps;
   this.setPosition(top, left);
   this.step();
-  window.dancers.push(this.$node);
 };
 
 makeDancer.prototype.setPosition = function(){
