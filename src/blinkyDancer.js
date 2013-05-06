@@ -61,5 +61,49 @@ makeDancer.call(this, top, left, timeBetweenSteps);
 };
 NonBlinkyDancer.prototype = Object.create(makeDancer.prototype);
 NonBlinkyDancer.prototype.constructor = BlinkyDancer;
+
+var MovingDancer = function(top, left, timeBetweenSteps){
+makeDancer.call(this, top, left, timeBetweenSteps);
+};
+
+
+MovingDancer.prototype = Object.create(makeDancer.prototype);
+MovingDancer.prototype.constructor = MovingDancer;
   // we plan to overwrite the step function below, but we still want the superclass step behavior to work,
   // so we must keep a copy of the old version of this function
+MovingDancer.prototype.step = function(){
+  //BlinkyDancer.$node.toggle();
+  makeDancer.prototype.step.apply(this);
+  // console.log(this.$node.offset());
+  this.$node.addClass("MovingDancer");
+  var that = this.$node;
+  // that.animate({ top: "500px", left: "500px" }, 5000, function(){});
+      animateDiv(that);
+  function makeNewPosition(){
+    // Get viewport dimensions (remove the dimension of the div)
+    var h = $(window).height() - 50;
+    var w = $(window).width() - 50;
+    var nh = Math.floor(Math.random() * h);
+    var nw = Math.floor(Math.random() * w);
+    return [nh,nw];
+  }
+
+  function animateDiv(that){
+    var newq = makeNewPosition();
+    var oldq = that.offset();
+    var speed = calcSpeed([oldq.top, oldq.left], newq);
+    that.animate({ top: newq[0], left: newq[1] }, speed, function(){
+      animateDiv(that);
+    });
+  }
+
+  function calcSpeed(prev, next) {
+    var x = Math.abs(prev[1] - next[1]);
+    var y = Math.abs(prev[0] - next[0]);
+    var greatest = x > y ? x : y;
+    var speedModifier = 0.1;
+    var speed = Math.ceil(greatest/speedModifier);
+    return speed;
+  }
+  animateDiv(that);
+};
